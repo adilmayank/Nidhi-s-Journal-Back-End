@@ -8,10 +8,7 @@ app.use(express.json())
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'https://journalfornidhi.onrender.com',
-    ],
+    origin: ['http://localhost:3000', 'https://journalfornidhi.onrender.com'],
   })
 )
 
@@ -26,31 +23,47 @@ const {
 
 // get all journals
 app.get('/api/v1/journals', async (req, res) => {
-  // get all journals
-  const allJournals = await getAllJournals()
-  res.json(allJournals)
+  try {
+    const allJournals = await getAllJournals()
+
+    res.json(allJournals)
+  } catch (error) {
+    res.json([{ body: error.message }])
+  }
 })
 
 //create journal
 app.post('/api/v1/journals', async (req, res) => {
-  const { body } = req.body
-  const getAllJournalsAfterCreate = await createJournal(body)
-  res.json(getAllJournalsAfterCreate)
+  try {
+    const { body } = req.body
+    const getAllJournalsAfterCreate = await createJournal(body)
+    res.json(getAllJournalsAfterCreate)
+  } catch (error) {
+    res.json([{ body: error.message }])
+  }
 })
 
 // update journal
 app.patch('/api/v1/journals/:journalId', async (req, res) => {
-  const { journalId } = req.params
-  const { body } = req.body
-  const getAllJournalsAfterUpdate = await updateJournal(journalId, body)
-  res.json(getAllJournalsAfterUpdate)
+  try {
+    const { journalId } = req.params
+    const { body } = req.body
+    const getAllJournalsAfterUpdate = await updateJournal(journalId, body)
+    res.json(getAllJournalsAfterUpdate)
+  } catch (error) {
+    res.json([{ body: error.message }])
+  }
 })
 
 // delete journal
 app.delete('/api/v1/journals/:journalId', async (req, res) => {
-  const { journalId } = req.params
-  const getAllJournalsAfterDelete = await removeJournal(journalId)
-  res.json(getAllJournalsAfterDelete)
+  try {
+    const { journalId } = req.params
+    const getAllJournalsAfterDelete = await removeJournal(journalId)
+    res.json(getAllJournalsAfterDelete)
+  } catch (error) {
+    res.json([{ body: error.message }])
+  }
 })
 
 app.listen(PORT, async () => {
