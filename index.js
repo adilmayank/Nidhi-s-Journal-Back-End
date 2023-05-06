@@ -48,6 +48,6 @@ app.listen(PORT, async () => {
     await dbConnect()
     console.log(`Connected to DB. Listening to port: ${PORT}`)
   } catch (error) {
-    console.log(`Error Occured`)
+    console.log(`Error: ${error}`)
   }
 })
