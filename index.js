@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'https://journalfornidhi-backend.onrender.com',
+      'https://journalfornidhi.onrender.com',
     ],
   })
 )
