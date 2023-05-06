@@ -25,10 +25,9 @@ const {
 app.get('/api/v1/journals', async (req, res) => {
   try {
     const allJournals = await getAllJournals()
-
-    res.json(allJournals)
+    res.json({ success: true, data: allJournals })
   } catch (error) {
-    res.json([{ body: error.message }])
+    res.json([{ success: false, error: error.message }])
   }
 })
 
@@ -37,9 +36,9 @@ app.post('/api/v1/journals', async (req, res) => {
   try {
     const { body } = req.body
     const getAllJournalsAfterCreate = await createJournal(body)
-    res.json(getAllJournalsAfterCreate)
+    res.json({ success: true, data: getAllJournalsAfterCreate })
   } catch (error) {
-    res.json([{ body: error.message }])
+    res.json([{ success: false, error: error.message }])
   }
 })
 
@@ -49,9 +48,9 @@ app.patch('/api/v1/journals/:journalId', async (req, res) => {
     const { journalId } = req.params
     const { body } = req.body
     const getAllJournalsAfterUpdate = await updateJournal(journalId, body)
-    res.json(getAllJournalsAfterUpdate)
+    res.json({ success: true, data: getAllJournalsAfterUpdate })
   } catch (error) {
-    res.json([{ body: error.message }])
+    res.json([{ success: false, error: error.message }])
   }
 })
 
@@ -60,9 +59,9 @@ app.delete('/api/v1/journals/:journalId', async (req, res) => {
   try {
     const { journalId } = req.params
     const getAllJournalsAfterDelete = await removeJournal(journalId)
-    res.json(getAllJournalsAfterDelete)
+    res.json({ success: true, data: getAllJournalsAfterDelete })
   } catch (error) {
-    res.json([{ body: error.message }])
+    res.json([{ success: false, error: error.message }])
   }
 })
 
