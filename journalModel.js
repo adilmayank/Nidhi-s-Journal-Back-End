@@ -8,11 +8,6 @@ const JournalsSchema = new Schema({
   body: { type: String, required: true },
 })
 
-JournalsSchema.pre("save",(next) => {
-  this.date = Date.now()
-  next()
-})
-
 const JournalsModel = mongoose.model('journals', JournalsSchema)
 
 module.exports = { JournalsModel }

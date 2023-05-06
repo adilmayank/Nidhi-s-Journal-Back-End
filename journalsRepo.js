@@ -12,7 +12,7 @@ const getAllJournals = async () => {
 }
 
 const createJournal = async (body) => {
-  await JournalsModel({ body }).save()
+  await JournalsModel({ body, date: Date.now() }).save()
   const allJournals = await JournalsModel.find({}).sort({ date: 1 }).lean()
   allJournals.map((item) => {
     item.date = new Date(item.date).toLocaleDateString()
