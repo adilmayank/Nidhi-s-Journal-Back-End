@@ -4,6 +4,9 @@ const getAllJournals = async () => {
   const allJournals = await JournalsModel.find({})
     .sort({ dateCreated: -1 })
     .lean()
+  allJournals.map((item) => {
+    item.date = new Date(item.date).toDateString()
+  })
   return allJournals
 }
 
@@ -12,6 +15,9 @@ const createJournal = async (body) => {
   const allJournals = await JournalsModel.find({})
     .sort({ dateCreated: -1 })
     .lean()
+  allJournals.map((item) => {
+    item.date = new Date(item.date).toDateString()
+  })
   return allJournals
 }
 
@@ -20,6 +26,9 @@ const updateJournal = async (journalId, body) => {
   const allJournals = await JournalsModel.find({})
     .sort({ dateCreated: -1 })
     .lean()
+  allJournals.map((item) => {
+    item.date = new Date(item.date).toDateString()
+  })
   return allJournals
 }
 
@@ -28,6 +37,9 @@ const removeJournal = async (journalId) => {
   const allJournals = await JournalsModel.find({})
     .sort({ dateCreated: -1 })
     .lean()
+  allJournals.map((item) => {
+    item.date = new Date(item.date).toDateString()
+  })
   return allJournals
 }
 
