@@ -1,14 +1,19 @@
 require('dotenv').config()
 const express = require('express')
 const { dbConnect } = require('./server')
-const cors = require('cors');
+const cors = require('cors')
 
 const app = express()
 app.use(express.json())
 
-app.use(cors({
-    origin: 'https://journalfornidhi-backend.onrender.com'
-  }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'https://journalfornidhi-backend.onrender.com',
+    ],
+  })
+)
 
 const PORT = process.env.production || 5000
 
