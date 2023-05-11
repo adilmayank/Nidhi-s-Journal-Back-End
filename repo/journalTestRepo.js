@@ -1,9 +1,7 @@
-const { JournalsModel } = require('./journalModel')
+const { JournalsTestModel } = require('../models/journalTestModel')
 
 const getAllJournals = async () => {
-  const allJournals = await JournalsModel.find({})
-    .sort({ date: -1 })
-    .lean()
+  const allJournals = await JournalsTestModel.find({}).sort({ date: -1 }).lean()
   allJournals.map((item) => {
     item.date = new Date(item.date).toLocaleDateString()
     item.time = new Date(item.date).toLocaleTimeString()
@@ -12,8 +10,8 @@ const getAllJournals = async () => {
 }
 
 const createJournal = async (body) => {
-  await JournalsModel({ body, date: Date.now() }).save()
-  const allJournals = await JournalsModel.find({}).sort({ date: -1 }).lean()
+  await JournalsTestModel({ body, date: Date.now() }).save()
+  const allJournals = await JournalsTestModel.find({}).sort({ date: -1 }).lean()
   allJournals.map((item) => {
     item.date = new Date(item.date).toLocaleDateString()
     item.time = new Date(item.date).toLocaleTimeString()
@@ -22,8 +20,8 @@ const createJournal = async (body) => {
 }
 
 const updateJournal = async (journalId, body) => {
-  await JournalsModel.findOneAndUpdate({ _id: journalId }, { body })
-  const allJournals = await JournalsModel.find({}).sort({ date: -1 }).lean()
+  await JournalsTestModel.findOneAndUpdate({ _id: journalId }, { body })
+  const allJournals = await JournalsTestModel.find({}).sort({ date: -1 }).lean()
   allJournals.map((item) => {
     item.date = new Date(item.date).toLocaleDateString()
     item.time = new Date(item.date).toLocaleTimeString()
@@ -32,8 +30,8 @@ const updateJournal = async (journalId, body) => {
 }
 
 const removeJournal = async (journalId) => {
-  await JournalsModel.findOneAndRemove({ _id: journalId })
-  const allJournals = await JournalsModel.find({}).sort({ date: -1 }).lean()
+  await JournalsTestModel.findOneAndRemove({ _id: journalId })
+  const allJournals = await JournalsTestModel.find({}).sort({ date: -1 }).lean()
   allJournals.map((item) => {
     item.date = new Date(item.date).toLocaleDateString()
     item.time = new Date(item.date).toLocaleTimeString()

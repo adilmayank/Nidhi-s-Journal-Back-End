@@ -19,51 +19,38 @@ const {
   createJournal,
   updateJournal,
   removeJournal,
-} = require('./journalsRepo')
+} = require('./controllers/journalController')
+
+const {
+  getAllJournals: getAllJournalsDev,
+  createJournal: createJournalDev,
+  updateJournal: updateJournalDev,
+  removeJournal: removeJournalDev,
+} = require('./controllers/journalTestController')
 
 // get all journals
-app.get('/api/v1/journals', async (req, res) => {
-  try {
-    const allJournals = await getAllJournals()
-    res.json({ success: true, data: allJournals })
-  } catch (error) {
-    res.json([{ success: false, error: error.message }])
-  }
-})
+app.get('/api/v1/journals', getAllJournals)
+
+// get all journals test
+app.get('/api/v1/dev/journals', getAllJournalsDev)
 
 //create journal
-app.post('/api/v1/journals', async (req, res) => {
-  try {
-    const { body } = req.body
-    const getAllJournalsAfterCreate = await createJournal(body)
-    res.json({ success: true, data: getAllJournalsAfterCreate })
-  } catch (error) {
-    res.json([{ success: false, error: error.message }])
-  }
-})
+app.post('/api/v1/journals', createJournal)
+
+//create journal test
+app.post('/api/v1/dev/journals', createJournalDev)
 
 // update journal
-app.patch('/api/v1/journals/:journalId', async (req, res) => {
-  try {
-    const { journalId } = req.params
-    const { body } = req.body
-    const getAllJournalsAfterUpdate = await updateJournal(journalId, body)
-    res.json({ success: true, data: getAllJournalsAfterUpdate })
-  } catch (error) {
-    res.json([{ success: false, error: error.message }])
-  }
-})
+app.patch('/api/v1/journals/:journalId', updateJournal)
+
+// update journal dev
+app.patch('/api/v1/dev/journals/:journalId', updateJournalDev)
 
 // delete journal
-app.delete('/api/v1/journals/:journalId', async (req, res) => {
-  try {
-    const { journalId } = req.params
-    const getAllJournalsAfterDelete = await removeJournal(journalId)
-    res.json({ success: true, data: getAllJournalsAfterDelete })
-  } catch (error) {
-    res.json([{ success: false, error: error.message }])
-  }
-})
+app.delete('/api/v1/journals/:journalId', removeJournal)
+
+// delete journal dev
+app.delete('/api/v1/dev/journals/:journalId', removeJournalDev)
 
 app.listen(PORT, async () => {
   try {
