@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const { dbConnect } = require('./server')
 const cors = require('cors')
+const { authentication } = require('./middlewares/authentication')
 
 const app = express()
 app.use(express.json())
@@ -26,7 +27,18 @@ const {
   createJournal: createJournalDev,
   updateJournal: updateJournalDev,
   removeJournal: removeJournalDev,
+  downloadAllData: downloadAllDataDev,
 } = require('./controllers/journalTestController')
+
+const { userSignup, userSignin } = require('./controllers/userController')
+
+// create a user
+app.post('/api/v1/user/signup', userSignup)
+
+// sign in a user
+app.post('/api/v1/user/signin', userSignin)
+
+app.use(authentication)
 
 // get all journals
 app.get('/api/v1/journals', getAllJournals)
@@ -51,6 +63,8 @@ app.delete('/api/v1/journals/:journalId', removeJournal)
 
 // delete journal dev
 app.delete('/api/v1/dev/journals/:journalId', removeJournalDev)
+
+app.get('/api/v1/dev/journals/downloadAll', downloadAllDataDev)
 
 app.listen(PORT, async () => {
   try {
