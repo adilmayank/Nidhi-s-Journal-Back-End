@@ -14,8 +14,7 @@ const userAuthenticate = async (req, res) => {
 
     const bearerToken = bearerTokenString.slice(7, bearerTokenString.length)
     const decodedToken = decodeToken(bearerToken)
-    req.userDBId = decodedToken.id
-    req.username = decodedToken.username
+    res.json({ success: true })
   } catch (error) {
     res.json({ success: false, error: error.message })
   }
@@ -45,7 +44,8 @@ const userSignin = async (req, res) => {
       if (isPasswordValid) {
         const id = userFromDb._id.toString()
         const token = signToken(id, userFromDb.username)
-        res.json({ bearerToken: token })
+        console.log(`User signed in`)
+        res.json({ success: true, bearerToken: token })
       } else {
         res.json({ success: false, message: 'invalid credentials' })
       }
