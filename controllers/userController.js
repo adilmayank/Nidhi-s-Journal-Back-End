@@ -16,7 +16,6 @@ const userAuthenticate = async (req, res) => {
     const decodedToken = decodeToken(bearerToken)
     req.userDBId = decodedToken.id
     req.username = decodedToken.username
-    next()
   } catch (error) {
     res.json({ success: false, error: error.message })
   }
