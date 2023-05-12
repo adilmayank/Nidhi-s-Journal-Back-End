@@ -45,33 +45,37 @@ app.post('/api/v1/user/signin', userSignin)
 // sign in a user
 app.post('/api/v1/user/authenticate', userAuthenticate)
 
-app.use(authentication)
-
 // get all journals
 app.get('/api/v1/journals', getAllJournals)
 
 // get all journals test
-app.get('/api/v1/dev/journals', getAllJournalsDev)
+app.get('/api/v1/dev/journals', [authentication, getAllJournalsDev])
 
 //create journal
 app.post('/api/v1/journals', createJournal)
 
 //create journal test
-app.post('/api/v1/dev/journals', createJournalDev)
+app.post('/api/v1/dev/journals', [authentication, createJournalDev])
 
 // update journal
 app.patch('/api/v1/journals/:journalId', updateJournal)
 
 // update journal dev
-app.patch('/api/v1/dev/journals/:journalId', updateJournalDev)
+app.patch('/api/v1/dev/journals/:journalId', [authentication, updateJournalDev])
 
 // delete journal
 app.delete('/api/v1/journals/:journalId', removeJournal)
 
 // delete journal dev
-app.delete('/api/v1/dev/journals/:journalId', removeJournalDev)
+app.delete('/api/v1/dev/journals/:journalId', [
+  authentication,
+  removeJournalDev,
+])
 
-app.get('/api/v1/dev/journals/downloadAll', downloadAllDataDev)
+app.get('/api/v1/dev/journals/downloadAll', [
+  authentication,
+  downloadAllDataDev,
+])
 
 app.listen(PORT, async () => {
   try {
