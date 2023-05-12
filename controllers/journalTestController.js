@@ -80,7 +80,6 @@ const downloadAllData = async (req, res) => {
       readStream.on('end', () => {
         fs.unlink(filename, (err) => {
           if (err) {
-            console.log(`Error deleting file:: ${err}`)
           }
         })
       })
@@ -89,12 +88,10 @@ const downloadAllData = async (req, res) => {
     })
 
     writeStream.on('error', (error) => {
-      console.log(`Error writing file:: ${error}`)
       res.json({ success: false, error: error.message })
     })
     res.setHeader('Content-disposition', `attachment; filename=${filename}`)
     res.setHeader('Content-type', 'text/plain')
-    res.json({ success: true })
   } catch (error) {
     res.json([{ success: false, error: error.message }])
   }
