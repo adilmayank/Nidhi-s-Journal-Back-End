@@ -43,7 +43,7 @@ app.post('/api/v1/user/signup', userSignup)
 app.post('/api/v1/user/signin', userSignin)
 
 // sign in a user
-app.post('/api/v1/user/authenticate', userAuthenticate)
+app.get('/api/v1/user/authenticate', userAuthenticate)
 
 // get all journals
 app.get('/api/v1/journals', getAllJournals)
@@ -72,7 +72,7 @@ app.delete('/api/v1/dev/journals/:journalId', [
   removeJournalDev,
 ])
 
-app.get('/api/v1/dev/journals/downloadAll', [
+app.get('/api/v1/dev/journals/download', [
   authentication,
   downloadAllDataDev,
 ])
