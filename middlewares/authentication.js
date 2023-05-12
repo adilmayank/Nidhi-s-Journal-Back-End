@@ -2,7 +2,7 @@ const { decodeToken } = require('../Utils/jwtOperations')
 
 const authentication = (req, res, next) => {
   try {
-    const { authorization: bearerTokenString } = req.headers
+    const { authentication: bearerTokenString } = req.headers
 
     if (!bearerTokenString) {
       throw new Error('No bearer token found.')
