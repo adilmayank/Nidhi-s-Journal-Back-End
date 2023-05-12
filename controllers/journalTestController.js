@@ -64,10 +64,10 @@ const downloadAllData = async (req, res) => {
     const filename = `journal_entries_${timestamp}.txt`
 
     const writeStream = fs.createWriteStream(filename)
-
+    const options = { timeZone: 'Asia/Kolkata' };
     allJournals.forEach((journal) => {
       writeStream.write(
-        `Date: ${new Date(journal.date).toLocaleString()}\n\nEntry: ${
+        `Date: ${new Date(journal.date).toLocaleString('en-US', options)}\n\nEntry: ${
           journal.body
         }\n\n\n`
       )
