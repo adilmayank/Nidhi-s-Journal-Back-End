@@ -1,8 +1,26 @@
 const bcrypt = require('bcrypt')
 const saltRounds = 10
-const { signToken } = require('../Utils/jwtOperations')
+const { signToken, decodeToken } = require('../Utils/jwtOperations')
 
 const { createUser, findUser } = require('../repo/userRepo')
+
+const userAuthenticate = async (req, res) => {
+  try {
+    const { authorization: bearerTokenString } = req.headers
+
+    if (!bearerTokenString) {
+      throw new Error('No bearer token found.')
+    }
+
+    const bearerToken = bearerTokenString.slice(7, bearerTokenString.length)
+    const decodedToken = decodeToken(bearerToken)
+    req.userDBId = decodedToken.id
+    req.username = decodedToken.username
+    next()
+  } catch (error) {
+    res.json({ success: false, error: error.message })
+  }
+}
 
 const userSignup = async (req, res) => {
   try {
@@ -38,4 +56,4 @@ const userSignin = async (req, res) => {
   }
 }
 
-module.exports = { userSignup, userSignin }
+module.exports = { userAuthenticate, userSignup, userSignin }

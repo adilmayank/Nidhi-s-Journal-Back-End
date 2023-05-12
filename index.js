@@ -30,13 +30,20 @@ const {
   downloadAllData: downloadAllDataDev,
 } = require('./controllers/journalTestController')
 
-const { userSignup, userSignin } = require('./controllers/userController')
+const {
+  userAuthenticate,
+  userSignup,
+  userSignin,
+} = require('./controllers/userController')
 
 // create a user
 app.post('/api/v1/user/signup', userSignup)
 
 // sign in a user
 app.post('/api/v1/user/signin', userSignin)
+
+// sign in a user
+app.post('/api/v1/user/authenticate', userAuthenticate)
 
 app.use(authentication)
 
