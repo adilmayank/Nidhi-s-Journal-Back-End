@@ -2,7 +2,12 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const { signToken, verifyToken } = require('../Utils/jwtOperations')
 
-const { createUser, findUser } = require('../repo/userRepo')
+const {
+  createUser,
+  findUser,
+  getUserPassword,
+  updateUserPassword,
+} = require('../repo/userRepo')
 
 const userAuthenticate = async (req, res) => {
   try {
@@ -58,4 +63,47 @@ const userSignin = async (req, res) => {
   }
 }
 
-module.exports = { userAuthenticate, userSignup, userSignin }
+const changeUserPassword = async (req, res) => {
+  try {
+    const { username, currentPassword, newPassword } = req.body
+
+    if (newPassword.trim().length === 0) {
+      throw new Error('New password can not be an empty string.')
+    }
+
+    const userFromDb = await findUser(username)
+
+    if (!userFromDb) {
+      res.json({ success: false, message: 'User not found' })
+    } else {
+      const { _id: id, password: userPassword } = userFromDb
+      const isPasswordSame = await bcrypt.compare(currentPassword, userPassword)
+      if (isPasswordSame) {
+        const newHashedPassword = await bcrypt.hash(newPassword, saltRounds)
+        await updateUserPassword(username, newHashedPassword)
+        const token = signToken(id, username)
+        res.json({
+          success: true,
+          bearerToken: token,
+        })
+      } else {
+        res.json({
+          success: false,
+          message: `Invalid Password`,
+        })
+      }
+    }
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+    })
+  }
+}
+
+module.exports = {
+  userAuthenticate,
+  userSignup,
+  userSignin,
+  changeUserPassword,
+}

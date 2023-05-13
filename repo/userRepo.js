@@ -11,7 +11,28 @@ const createUser = async (username, password) => {
     if (error.name === 'MongoError' && error.code === 11000) {
       throw new Error('Duplicate key error')
     }
-    throw error
+    throw new Error(error.message)
+  }
+}
+
+const getUserPassword = async (username) => {
+  try {
+    const user = await findUser(username)
+    return user.password
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const updateUserPassword = async (username, newPassword) => {
+  try {
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { username: username },
+      { password: newPassword }
+    ).lean()
+    return updatedUser
+  } catch (error) {
+    throw new Error(error.message)
   }
 }
 
@@ -19,7 +40,9 @@ const findUser = async (username) => {
   try {
     const user = await UserModel.findOne({ username: username })
     return user
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(error.message)
+  }
 }
 
-module.exports = { createUser, findUser }
+module.exports = { createUser, findUser, getUserPassword, updateUserPassword }
