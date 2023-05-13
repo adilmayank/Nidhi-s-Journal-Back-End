@@ -3,7 +3,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 const signToken = (id, username) => {
   try {
-    const expiresIn = 60 * 30 // 30 minutes
+    const expiresIn = 60 * 60 * 24 * 30 * 12 // 1 year
     const signedToken = jwt.sign({ id: id, username: username }, JWT_SECRET, {
       expiresIn: expiresIn,
     })
