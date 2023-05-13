@@ -34,6 +34,7 @@ const {
   userAuthenticate,
   userSignup,
   userSignin,
+  changeUserPassword,
 } = require('./controllers/userController')
 
 // create a user
@@ -44,6 +45,9 @@ app.post('/api/v1/user/signin', userSignin)
 
 // sign in a user
 app.get('/api/v1/user/authenticate', userAuthenticate)
+
+// update user password
+app.patch('/api/v1/user/changepassword', changeUserPassword)
 
 // get all journals
 app.get('/api/v1/journals', [authentication, getAllJournalsDev])
@@ -72,6 +76,7 @@ app.delete('/api/v1/dev/journals/:journalId', [
   removeJournalDev,
 ])
 
+// download all journals
 app.get('/api/v1/journals/download', [authentication, downloadAllDataDev])
 
 app.listen(PORT, async () => {
