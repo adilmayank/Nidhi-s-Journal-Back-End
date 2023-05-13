@@ -1,4 +1,4 @@
-const { decodeToken } = require('../Utils/jwtOperations')
+const { verifyToken } = require('../Utils/jwtOperations')
 
 const authentication = (req, res, next) => {
   try {
@@ -9,7 +9,10 @@ const authentication = (req, res, next) => {
     }
 
     const bearerToken = bearerTokenString.slice(7, bearerTokenString.length)
-    const decodedToken = decodeToken(bearerToken)
+    const decodedToken = verifyToken(bearerToken)
+    if (decodedToken instanceof Error) {
+      throw new Error(decodedToken.message)
+    }
     req.userDBId = decodedToken.id
     req.username = decodedToken.username
     next()
