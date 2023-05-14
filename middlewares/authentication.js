@@ -2,7 +2,8 @@ const { verifyToken } = require('../Utils/jwtOperations')
 
 const authentication = (req, res, next) => {
   try {
-    const { authentication: bearerTokenString } = req.headers
+    console.log(req.headers)
+    const { authorization: bearerTokenString } = req.headers
 
     if (!bearerTokenString) {
       throw new Error('No bearer token found.')
