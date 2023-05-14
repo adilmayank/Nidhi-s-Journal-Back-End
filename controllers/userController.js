@@ -65,7 +65,8 @@ const userSignin = async (req, res) => {
 
 const changeUserPassword = async (req, res) => {
   try {
-    const { username, currentPassword, newPassword } = req.body
+    const username = req
+    const { currentPassword, newPassword } = req.body
 
     if (newPassword.trim().length === 0) {
       throw new Error('New password can not be an empty string.')
