@@ -47,7 +47,7 @@ app.post('/api/v1/user/signin', userSignin)
 app.get('/api/v1/user/authenticate', userAuthenticate)
 
 // update user password
-app.patch('/api/v1/user/changepassword', changeUserPassword)
+app.patch('/api/v1/user/changepassword', [authentication, changeUserPassword])
 
 // get all journals
 app.get('/api/v1/journals', [authentication, getAllJournalsDev])
