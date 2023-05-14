@@ -47,7 +47,7 @@ const userSignin = async (req, res) => {
     let isPasswordValid = false
     const userFromDb = await findUser(username)
     if (!userFromDb) {
-      res.json({ success: false, message: 'User not found' })
+      res.json({ success: false, error: 'User not found' })
     } else {
       isPasswordValid = await bcrypt.compare(password, userFromDb.password)
       if (isPasswordValid) {
@@ -55,7 +55,7 @@ const userSignin = async (req, res) => {
         const token = signToken(id, userFromDb.username)
         res.json({ success: true, bearerToken: token })
       } else {
-        res.json({ success: false, message: 'Invalid credentials' })
+        res.json({ success: false, error: 'Invalid credentials' })
       }
     }
   } catch (error) {
@@ -65,7 +65,7 @@ const userSignin = async (req, res) => {
 
 const changeUserPassword = async (req, res) => {
   try {
-    const username = req
+    const {username} = req
     const { currentPassword, newPassword } = req.body
 
     if (newPassword.trim().length === 0) {
@@ -75,7 +75,7 @@ const changeUserPassword = async (req, res) => {
     const userFromDb = await findUser(username)
 
     if (!userFromDb) {
-      res.json({ success: false, message: 'User not found' })
+      res.json({ success: false, error: 'User not found' })
     } else {
       const { _id: id, password: userPassword } = userFromDb
       const isPasswordSame = await bcrypt.compare(currentPassword, userPassword)
@@ -90,7 +90,7 @@ const changeUserPassword = async (req, res) => {
       } else {
         res.json({
           success: false,
-          message: `Invalid Password`,
+          error: `Invalid Password`,
         })
       }
     }
