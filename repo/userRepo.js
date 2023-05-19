@@ -8,8 +8,8 @@ const createUser = async (username, password) => {
     }).save()
     return { _id: user._id, createdUsername: user.username }
   } catch (error) {
-    if (error.name === 'MongoError' && error.code === 11000) {
-      throw new Error('Duplicate key error')
+    if (error.name === 'MongoServerError' && error.code === 11000) {
+      return new Error('Username already exists')
     }
     throw new Error(error.message)
   }
