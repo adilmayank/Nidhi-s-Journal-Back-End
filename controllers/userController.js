@@ -31,13 +31,22 @@ const userAuthenticate = async (req, res) => {
 
 const userSignup = async (req, res) => {
   try {
-    const { username, password } = req.body
+    const { username, password, reenteredPassword } = req.body
+    if(password !== reenteredPassword) {
+      throw new Error("Provided password and Re-Entered passwords do not match.")
+    }
     const hashedPassword = await bcrypt.hash(password, saltRounds)
-    const { _id, createdUsername } = await createUser(username, hashedPassword)
+    const createdUser = await createUser(username, hashedPassword)
+    
+    if(createdUser instanceof Error) {
+      throw new Error(createdUser)
+    }
+
+    const { _id, createdUsername } = createdUser
     const token = signToken(_id, createdUsername)
-    res.json({ bearerToken: token })
+    res.json({success: true, bearerToken: token })
   } catch (error) {
-    res.json({ error: error.message })
+    res.json({success: false, error: error.message })
   }
 }
 

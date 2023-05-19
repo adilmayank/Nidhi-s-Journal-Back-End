@@ -2,7 +2,6 @@ const { verifyToken } = require('../Utils/jwtOperations')
 
 const authentication = (req, res, next) => {
   try {
-    console.log(req.headers)
     const { authorization: bearerTokenString } = req.headers
 
     if (!bearerTokenString) {
